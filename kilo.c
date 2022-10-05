@@ -51,6 +51,7 @@ void enableRawMode() {
 char editorReadKey() {
   int nread;
   char c;
+	
   while ((nread = read(STDIN_FILENO, &c, 1)) != 1) {
     if (nread == -1 && errno != EAGAIN) die("read");
   }
@@ -60,16 +61,19 @@ char editorReadKey() {
 int getCursorPosition(int *rows, int *cols) {
   char buf[32];
   unsigned int i = 0;
+
   if (write(STDOUT_FILENO, "\x1b[6n", 4) != 4) return -1;
+
   while (i < sizeof(buf) - 1) {
     if (read(STDIN_FILENO, &buf[i], 1) != 1) break;
     if (buf[i] == 'R') break;
     i++;
   }
   buf[i] = '\0';
-  printf("\r\n&buf[1]: '%s'\r\n", &buf[1]);
-  editorReadKey();
-  return -1;
+
+  if (buf[0] != '\x1b' || buf[1] != '[') return -1;
+  if (sscanf(&buf[2], "%d;%d", rows, cols) != 2) return -1;
+  return 0;
 }
 
 int getWindowSize(int *rows, int *cols) {
