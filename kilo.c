@@ -273,7 +273,7 @@ void editorRefreshScreen() {
   editorDrawRows(&ab);          //draw tildes for entire screen
 
 	char buf[32];
-  snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.cy - E.rowoff) + 1, E.cx + 1);
+  snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.cy - E.rowoff) + 1, (E.cx - E.coloff) + 1);
   abAppend(&ab, buf, strlen(buf));
 
   abAppend(&ab, "\x1b[?25h", 6);
@@ -291,9 +291,7 @@ void editorMoveCursor(int key) {
       }
       break;
     case ARROW_RIGHT:
-      if (E.cx != E.screencols - 1) {
         E.cx++;
-      }
       break;
     case ARROW_UP:
       if (E.cy != 0) {
