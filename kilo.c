@@ -33,7 +33,9 @@ enum editorKey {
 /*** data ***/
 typedef struct erow {
   int size;
+	int rsize;    //render size
   char *chars;
+  char *render;
 } erow;
 
 struct editorConfig {
@@ -171,6 +173,10 @@ void editorAppendRow(char *s, size_t len) {
   E.row[at].chars = malloc(len + 1);
   memcpy(E.row[at].chars, s, len);
   E.row[at].chars[len] = '\0';
+
+	E.row[at].rsize = 0;
+  E.row[at].render = NULL;
+
   E.numrows++;
 }
 
