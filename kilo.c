@@ -337,6 +337,14 @@ void editorDrawStatusBar(struct abuf *ab) {
 	abAppend(ab, "\r\n", 2);
 }
 
+void editorDrawMessageBar(struct abuf *ab) {
+  abAppend(ab, "\x1b[K", 3);   //clear message bar
+  int msglen = strlen(E.statusmsg);
+  if (msglen > E.screencols) msglen = E.screencols;
+  if (msglen && time(NULL) - E.statusmsg_time < 5)
+    abAppend(ab, E.statusmsg, msglen);
+}
+
 void editorRefreshScreen() {
 	editorScroll();
 
@@ -347,6 +355,7 @@ void editorRefreshScreen() {
 
   editorDrawRows(&ab);          //draw tildes for entire screen
 	editorDrawStatusBar(&ab);
+	editorDrawMessageBar(&ab);
 
 	char buf[32];
   snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.cy - E.rowoff) + 1, (E.rx - E.coloff) + 1);
