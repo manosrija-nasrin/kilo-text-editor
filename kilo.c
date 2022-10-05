@@ -307,21 +307,32 @@ void editorDrawRows(struct abuf *ab) {
   }
 }
 
+void editorDrawStatusBar(struct abuf *ab) {
+  abAppend(ab, "\x1b[7m", 4);      //inverted colour of status bar - set
+  int len = 0;
+  while (len < E.screencols) {
+    abAppend(ab, " ", 1);
+    len++;
+  }
+  abAppend(ab, "\x1b[m", 3);
+}
+
 void editorRefreshScreen() {
 	editorScroll();
 
   struct abuf ab = ABUF_INIT;
 
-	abAppend(&ab, "\x1b[?25l", 6);
+	abAppend(&ab, "\x1b[?25l", 6);  //hide cursor
   abAppend(&ab, "\x1b[H", 3);   //move cursor to top
 
   editorDrawRows(&ab);          //draw tildes for entire screen
+	editorDrawStatusBar(&ab);
 
 	char buf[32];
   snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.cy - E.rowoff) + 1, (E.rx - E.coloff) + 1);
   abAppend(&ab, buf, strlen(buf));
 
-  abAppend(&ab, "\x1b[?25h", 6);
+  abAppend(&ab, "\x1b[?25h", 6);   //hide cursor
 
 	write(STDOUT_FILENO, ab.b, ab.len);
   abFree(&ab);
