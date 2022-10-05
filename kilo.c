@@ -124,14 +124,16 @@ void editorDrawRows(struct abuf *ab) {
 void editorRefreshScreen() {
   struct abuf ab = ABUF_INIT;
 
+	abAppend(&ab, "\x1b[?25l", 6);
   abAppend(&ab, "\x1b[2J", 4);  //clear screen
   abAppend(&ab, "\x1b[H", 3);   //move cursor to top
 
   editorDrawRows(&ab);          //draw tildes for entire screen
 
   abAppend(&ab, "\x1b[H", 3);  //move cursor back to top
-  write(STDOUT_FILENO, ab.b, ab.len);
+  abAppend(&ab, "\x1b[?25h", 6);
 
+	write(STDOUT_FILENO, ab.b, ab.len);
   abFree(&ab);
 }
 
