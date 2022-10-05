@@ -51,7 +51,7 @@ void enableRawMode() {
 char editorReadKey() {
   int nread;
   char c;
-	
+
   while ((nread = read(STDIN_FILENO, &c, 1)) != 1) {
     if (nread == -1 && errno != EAGAIN) die("read");
   }
@@ -79,7 +79,7 @@ int getCursorPosition(int *rows, int *cols) {
 int getWindowSize(int *rows, int *cols) {
   struct winsize ws;
 
-  if (1 || ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
+  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
     if (write(STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != 12) return -1;
     return getCursorPosition(rows, cols);
   } else {
