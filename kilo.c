@@ -1,4 +1,8 @@
 /*** includes ***/
+#define _DEFAULT_SOURCE
+#define _BSD_SOURCE
+#define _GNU_SOURCE
+
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -168,7 +172,7 @@ void editorOpen(char *filename) {
   if (linelen != -1) {
     while (linelen > 0 && (line[linelen - 1] == '\n' ||
                            line[linelen - 1] == '\r'))
-      linelen--;
+      linelen--;  //stripping the newline or carriage return at the end
     E.row.size = linelen;
     E.row.chars = malloc(linelen + 1);
     memcpy(E.row.chars, line, linelen);
