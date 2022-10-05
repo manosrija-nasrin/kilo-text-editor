@@ -163,7 +163,7 @@ int getWindowSize(int *rows, int *cols) {
 /*** row operations ***/
 void editorAppendRow(char *s, size_t len) {
  E.row = realloc(E.row, sizeof(erow) * (E.numrows + 1));
- 
+
   int at = E.numrows;
   E.row[at].size = len;
   E.row[at].chars = malloc(len + 1);
@@ -233,9 +233,9 @@ void editorDrawRows(struct abuf *ab) {
         abAppend(ab, "~", 1);
       }
     } else {
-      int len = E.row.size;
+      int len = E.row[y].size;
       if (len > E.screencols) len = E.screencols;
-      abAppend(ab, E.row.chars, len);
+      abAppend(ab, E.row[y].chars, len);
     }
 
 		abAppend(ab, "\x1b[K", 3);  //erase in line
