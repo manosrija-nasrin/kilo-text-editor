@@ -202,7 +202,7 @@ void editorUpdateRow(erow *row) {
 }
 
 void editorAppendRow(char *s, size_t len) {
- E.row = realloc(E.row, sizeof(erow) * (E.numrows + 1));
+  E.row = realloc(E.row, sizeof(erow) * (E.numrows + 1));
 
   int at = E.numrows;
   E.row[at].size = len;
@@ -257,7 +257,10 @@ void abFree(struct abuf *ab) {
 
 /*** output ***/
 void editorScroll() {
-  E.rx = E.cx;
+  E.rx = 0;
+  if (E.cy < E.numrows) {
+    E.rx = editorRowCxToRx(&E.row[E.cy], E.cx);
+  }
   if (E.cy < E.rowoff) {
     E.rowoff = E.cy;
   }
