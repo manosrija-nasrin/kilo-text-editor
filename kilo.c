@@ -160,11 +160,20 @@ int getWindowSize(int *rows, int *cols) {
   }
 }
 
+/*** row operations ***/
+void editorAppendRow(char *s, size_t len) {
+  E.row.size = len;
+  E.row.chars = malloc(len + 1);
+  memcpy(E.row.chars, s, len);
+  E.row.chars[len] = '\0';
+  E.numrows = 1;
+}
+
 /*** file i/o ***/
 void editorOpen(char *filename) {
   FILE *fp = fopen(filename, "r");
   if (!fp) die("fopen");
-
+	
   char *line = NULL;
   size_t linecap = 0;
   ssize_t linelen;
@@ -172,16 +181,13 @@ void editorOpen(char *filename) {
   if (linelen != -1) {
     while (linelen > 0 && (line[linelen - 1] == '\n' ||
                            line[linelen - 1] == '\r'))
-      linelen--;  //stripping the newline or carriage return at the end
-    E.row.size = linelen;
-    E.row.chars = malloc(linelen + 1);
-    memcpy(E.row.chars, line, linelen);
-    E.row.chars[linelen] = '\0';
-    E.numrows = 1;
+      linelen--;
+    editorAppendRow(line, linelen);
   }
   free(line);
   fclose(fp);
 }
+
 
 /*** append buffer ***/
 struct abuf {
