@@ -257,7 +257,7 @@ void editorInsertChar(int c) {
 
 void editorDelChar() {
   if (E.cy == E.numrows) return;
-  
+
   erow *row = &E.row[E.cy];
   if (E.cx > 0) {
     editorRowDelChar(row, E.cx - 1);
@@ -532,7 +532,8 @@ void editorProcessKeypress() {
     case BACKSPACE:
     case CTRL_KEY('h'):         //control code 8 which stands for Bkspc
     case DEL_KEY:
-      /* TODO */
+      if (c == DEL_KEY) editorMoveCursor(ARROW_RIGHT);
+      editorDelChar();
       break;
 
 		case PAGE_UP:
