@@ -10,7 +10,7 @@ Due for upgrades.
 
 ### How to use
 
-I suggest using antirez's [original version](https://github.com/antirez/kilo). To use this version, type the following in your terminal.
+I suggest using antirez's [original version](https://github.com/antirez/kilo). To use *this* version, type the following in your terminal.
 
 1. **Clone the repository locally**:
 
@@ -25,7 +25,7 @@ cd kilo-text-editor
 ### Credit
 
 - followed snaptoken's tutorial. [here](https://viewsourcecode.org/snaptoken/kilo/)
-- the original version of kilo text editor by Salvatore Sanfilippo aka [antirez](https://github.com/antirez) [here](https://github.com/antirez/kilo)
+- the original version of kilo text editor by Salvatore Sanfilippo aka [antirez](https://github.com/antirez) | [here](https://github.com/antirez/kilo)
 
 ### Ideas for more features
 
