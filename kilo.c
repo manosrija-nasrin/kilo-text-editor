@@ -62,11 +62,13 @@ struct editorSyntax {
 };
 
 typedef struct erow {
+  int idx;
   int size;
 	int rsize;    //render size
   char *chars;
   char *render;
   unsigned char *hl;
+  int hl_open_comment;
 } erow;
 
 struct editorConfig {
@@ -432,6 +434,8 @@ void editorInsertRow(int at, char *s, size_t len) {
   E.row = realloc(E.row, sizeof(erow) * (E.numrows + 1));
   memmove(&E.row[at + 1], &E.row[at], sizeof(erow) * (E.numrows - at));
 
+  E.row[at].idx = at;
+  
   E.row[at].size = len;
   E.row[at].chars = malloc(len + 1);
   memcpy(E.row[at].chars, s, len);
@@ -440,6 +444,7 @@ void editorInsertRow(int at, char *s, size_t len) {
 	E.row[at].rsize = 0;
   E.row[at].render = NULL;
   E.row[at].hl = NULL;
+  E.row[at].hl_open_comment = 0;
 	editorUpdateRow(&E.row[at]);
 
   E.numrows++;
