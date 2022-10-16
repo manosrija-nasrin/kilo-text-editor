@@ -365,7 +365,7 @@ void editorOpen(char *filename) {
 
 void editorSave() {
   if (E.filename == NULL) {
-    E.filename = editorPrompt("Save as: %s (ESC to cancel)");
+    E.filename = editorPrompt("Save as: %s (ESC to cancel)", NULL);
     if (E.filename == NULL) {
       editorSetStatusMessage("Save aborted");
       return;
@@ -394,7 +394,7 @@ void editorSave() {
 
 /*** find ***/
 void editorFind() {
-  char *query = editorPrompt("Search: %s (ESC to cancel)");
+  char *query = editorPrompt("Search: %s (ESC to cancel)", NULL);
   if (query == NULL) return;
 
   int i;
@@ -563,6 +563,11 @@ char *editorPrompt(char *prompt, void (*callback)(char *, int)) {
     } else if (c == '\x1b') {
       editorSetStatusMessage("");
       if (callback) callback(buf, c);
+        /*** if statements allow the caller to pass NULL 
+         * for the callback, in case they don’t want to 
+         * use a callback. This is the case when we prompt 
+         * the user for a filename 
+         **/
       free(buf);
       return NULL;
     } else if (c == '\r') {
