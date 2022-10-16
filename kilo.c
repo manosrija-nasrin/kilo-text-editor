@@ -411,12 +411,23 @@ void editorFindCallback(char *query, int key) {
     direction = 1;
   }
 
+  if (last_match == -1) direction = 1;
+  int current = last_match;  //index of the current row we are searching
   int i;
   for (i = 0; i < E.numrows; i++) {
-    erow *row = &E.row[i];
+    current += direction;  //If there was a last match, it starts on the 
+                           //line after (or before, if we’re searching 
+                           //backwards).
+
+    //allow a search to wrap-around the end of a file
+    if (current == -1) current = E.numrows - 1;
+    else if (current == E.numrows) current = 0;
+
+    erow *row = &E.row[current];
     char *match = strstr(row->render, query);
     if (match) {
-      E.cy = i;
+      last_match = current;
+      E.cy = current;
       E.cx = editorRowRxToCx(row, match - row->render);
       E.rowoff = E.numrows;
       break;
