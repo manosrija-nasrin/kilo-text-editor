@@ -186,6 +186,10 @@ int getWindowSize(int *rows, int *cols) {
 }
 
 /*** syntax highlighting ***/
+int is_separator(int c) {
+  return isspace(c) || c == '\0' || strchr(",.()+-/*=~%<>[];", c) != NULL;
+}
+
 void editorUpdateSyntax(erow *row) {
   row->hl = realloc(row->hl, row->rsize);
   memset(row->hl, HL_NORMAL, row->rsize);
@@ -193,7 +197,7 @@ void editorUpdateSyntax(erow *row) {
   int i = 0;
   while (i < row->rsize) {
     char c = row->render[i];
-    
+
     if (isdigit(c)) {
       row->hl[i] = HL_NUMBER;
     }
