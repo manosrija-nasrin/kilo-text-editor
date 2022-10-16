@@ -10,7 +10,7 @@ Due for upgrades.
 
 ### How to use
 
-I suggest using antirez's [original version](https://github.com/antirez/kilo). To use *this* version, type the following in your terminal.
+I suggest using antirez's [original version](https://github.com/antirez/kilo). To use _this_ version, type the following in your terminal.
 
 1. **Clone the repository locally**:
 
@@ -45,6 +45,8 @@ _(from snaptoken's tutorial website itself)_
 
 _(my own thoughts)_
 
-- **Expand syntax highlighting features**: Highlight `include`s, `define`, `ifndef`s and other preprocessor directives for C.
+- **Expand syntax highlighting features**: Highlight `include`s, `define`, `ifndef`s and other preprocessor directives for C. Highlight function names such as `main()`, `printf()`, `scanf()`, etc.
 - **Undo and redo**: Give the user the option to undo or redo a change when they press Ctrl-Z or Ctrl-Y respectively.
 - **Modify cursor snapping**: Snap the cursor to the end of last line in file. The user should not be able to move one line below the last line in file.
+- **Allow save-as for existing files**: Allow users to save an existing file to a different location, or in a different format.
+- **Languages to be included in syntax highlighting**: Markdown, C++, C++17
