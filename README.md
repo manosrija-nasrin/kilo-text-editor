@@ -12,8 +12,13 @@ Due for upgrades.
 
 I suggest using antirez's [original version](https://github.com/antirez/kilo). To use this version, type the following in your terminal.
 
-1. **Clone the repository locally**:```git clone https://github.com/manosrija-nasrin/kilo-text-editor.git 
-                                      cd kilo-text-editor```
+1. **Clone the repository locally**:
+
+```
+git clone https://github.com/manosrija-nasrin/kilo-text-editor.git
+cd kilo-text-editor
+```
+
 2. **Compile the source code**: `make kilo`
 3. **Use the editor**:`./kilo [optional: filename]` for e.g. `./kilo` or `./kilo kilo.c`
 
