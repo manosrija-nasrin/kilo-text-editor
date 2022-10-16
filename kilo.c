@@ -394,8 +394,21 @@ void editorSave() {
 
 /*** find ***/
 void editorFindCallback(char *query, int key) {
+  static int last_match = -1; //index of the row that the last match was on, or -1 if there was no last match
+  static int direction = 1;   //direction of the search: 1 for searching forward, and -1 for searching backward
+
   if (key == '\r' || key == '\x1b') {
+    //leave search mode
+    last_match = -1;
+    direction = 1;
     return;
+  } else if (key == ARROW_RIGHT || key == ARROW_DOWN) {
+    direction = 1;
+  } else if (key == ARROW_LEFT || key == ARROW_UP) {
+    direction = -1;
+  } else {
+    last_match = -1;
+    direction = 1;
   }
 
   int i;
