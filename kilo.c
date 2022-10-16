@@ -429,6 +429,15 @@ void editorFindCallback(char *query, int key) {
   static int last_match = -1; //index of the row that the last match was on, or -1 if there was no last match
   static int direction = 1;   //direction of the search: 1 for searching forward, and -1 for searching backward
 
+  static int saved_hl_line;  //which line’s hl needs to be restored.
+  static char *saved_hl = NULL;
+
+  if (saved_hl) {
+    memcpy(E.row[saved_hl_line].hl, saved_hl, E.row[saved_hl_line].rsize);
+    free(saved_hl);
+    saved_hl = NULL;
+  }
+
   if (key == '\r' || key == '\x1b') {
     //leave search mode
     last_match = -1;
@@ -463,6 +472,9 @@ void editorFindCallback(char *query, int key) {
       E.cx = editorRowRxToCx(row, match - row->render);
       E.rowoff = E.numrows;
 
+      saved_hl_line = current;
+      saved_hl = malloc(row->rsize);
+      memcpy(saved_hl, row->hl, row->rsize);
       memset(&row->hl[match - row->render], HL_MATCH, strlen(query));
       break;
     }
